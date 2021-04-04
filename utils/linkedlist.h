@@ -1,7 +1,3 @@
-// Linked List Node Types
-#define LL_OPERATOR 0
-#define LL_OPERAND 1
-
 // Linked List Manager
 // first -> First element of linked list
 // last -> Last element of linked list
@@ -12,7 +8,7 @@ typedef struct {
 } LinkedList;
 
 // Linked List Data Node
-// type -> Type of data (VALUE 0) (LL_OPERAND)
+// type -> Type of data (VALUE 0) (OPERAND)
 // next -> Pointer to next node
 // prev -> Pointer to previous node
 // data -> Operand and/or Operator stored inside node

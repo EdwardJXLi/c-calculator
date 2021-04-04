@@ -2,7 +2,10 @@
     "files.associations": {
         "clean.h": "c",
         "parse.h": "c",
-        "linkedlist.h": "c"
+        "linkedlist.h": "c",
+        "common.h": "c",
+        "helpers.h": "c",
+        "error.h": "c"
     },
     "cmake.configureOnOpen": false
 }

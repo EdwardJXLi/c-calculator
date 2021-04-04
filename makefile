@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -I -g -Wall
 TARGET = run
-FILES = main.o utils/linkedlist.o utils/parse.o
+FILES = main.o utils/helpers.o utils/linkedlist.o utils/error.o utils/parse.o
 
 default: compile
 

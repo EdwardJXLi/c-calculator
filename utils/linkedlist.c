@@ -3,9 +3,7 @@
  * Description: Custom implemented linked list to store operators and operands
  */
 
-// Import Libraries
-#include <stdio.h>
-#include <stdlib.h>
+#include "common.h"
 #include "linkedlist.h" 
 
 // Function to Initiate a Linked List Object
@@ -55,12 +53,12 @@ void appendNode(LinkedList* ll, int type, int data) {
 
 // Function to Append Operator
 void appendOperator(LinkedList* ll, char data) {
-    appendNode(ll, LL_OPERATOR, (int)data);
+    appendNode(ll, OPERATOR, (int)data);
 }
 
 // Function to Append Operand
 void appendOperand(LinkedList* ll, int data) {
-    appendNode(ll, LL_OPERAND, data);
+    appendNode(ll, OPERAND, data);
 }
 
 // Function to Get Type of Node from the End of a Linked List
@@ -179,7 +177,12 @@ void linkedListDebugPrint(LinkedList* ll) {
     // Iterate Through and Get Nodes
     LLNode* current = ll->first;
     while (current) {
-        printf("Node at %p - Type: %d - Data: %d\n", current, current->type, current->data);
+        if (current->type == OPERATOR) {
+            printf("Node at %p - Type: %d - Data: %c\n", current, current->type, current->data);
+        }
+        else {
+            printf("Node at %p - Type: %d - Data: %d\n", current, current->type, current->data);
+        }
         printf("() [%p] <-> [[%p]] <-> [%p] )\n", current->back, current, current->next);
         current = current->next;
     }
