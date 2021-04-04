@@ -3,6 +3,8 @@
  * Description: Variety of functions to clean user input
  */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "clean.h"
 
 // Function to remove all spaces from string
