@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "clean.h": "c"
+        "clean.h": "c",
+        "parse.h": "c",
+        "linkedlist.h": "c"
     },
     "cmake.configureOnOpen": false
 }
