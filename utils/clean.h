@@ -1,0 +1,1 @@
+void removeSpaces(char* input);
