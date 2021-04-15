@@ -26,8 +26,8 @@ void removeSpaces(char* input){
 void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
     // Init Vars
     long double tempNum = 0;
-    int isDecimal = false;
     int isNegative = false;
+    int decimal = 0;  // How many Decimals
     int i = 0;
     int bracketLayer = 0;
     int lastType;
@@ -60,13 +60,36 @@ void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
         // Handle Number
         if (isNum(input[i])) {
             // Handle if last type was a closing bracket
+            // NOT ALLOWED!
             if (lastType == CLOSE_BRACKET) {
-                pushOperatorToTail(output, '*');
+                char errorMessage[MAX_ERROR_LEN];
+                snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Operand In Input: %c At Location %d", input[i], i+1);
+                setError(errorHandler, "Parser", errorMessage);
+                return;
             }
 
             // Process Number
-            tempNum = tempNum*10 + input[i] - '0';
+            if (decimal) {
+                // Process Decimal
+                tempNum = tempNum + (input[i] - '0') * pow(0.1, decimal);
+                ++decimal;
+            }
+            else {
+                // Process Non-Decimal Number
+                tempNum = tempNum*10 + input[i] - '0';
+            }
             lastType = OPERAND;
+        }
+        // Handle Decimal
+        else if (input[i] == '.') {
+            // Check if decimal is already set
+            if (decimal) {
+                char errorMessage[MAX_ERROR_LEN];
+                snprintf(errorMessage, MAX_ERROR_LEN, "Multiple Decimal Points in One Number At Location %d", i+1);
+                setError(errorHandler, "Parser", errorMessage);
+                return;
+            }
+            ++decimal;
         }
         // Handle Anything Else (Not Number!)
         else {
@@ -80,6 +103,7 @@ void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
                     }
                     pushOperandToTail(output, tempNum);
                     tempNum = 0;
+                    decimal = 0;
                     isNegative = false;
                 }
 
@@ -107,7 +131,7 @@ void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
                 }
                 else {
                     char errorMessage[MAX_ERROR_LEN];
-                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Operand In Input: %c At Location %d", input[i], i);
+                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Operand In Input: %c At Location %d", input[i], i+1);
                     setError(errorHandler, "Parser", errorMessage);
                     return;
                 }
@@ -131,7 +155,7 @@ void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
                 }
                 else {
                     char errorMessage[MAX_ERROR_LEN];
-                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Operator In Input: %c At Location %d", input[i], i);
+                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Operator In Input: %c At Location %d", input[i], i+1);
                     setError(errorHandler, "Parser", errorMessage);
                     return;
                 }

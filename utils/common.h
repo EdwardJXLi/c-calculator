@@ -1,6 +1,7 @@
 // Include Important Libraries
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // Aliases
 #define true 1
