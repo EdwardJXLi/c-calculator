@@ -110,13 +110,13 @@ void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
                 // Check if current character is opening bracket
                 if (input[i] == '(') {
                     pushOperatorToTail(output, '*');
-                    pushOperatorToTail(output, '(');
+                    pushBracketToTail(output, OPEN_BRACKET);
                     lastType = OPEN_BRACKET;
                     ++bracketLayer;
                 }
                 // Check if current character is closing bracket
                 else if (input[i] == ')') {
-                    pushOperatorToTail(output, ')');
+                    pushBracketToTail(output, CLOSE_BRACKET);
                     lastType = CLOSE_BRACKET;
                     --bracketLayer;
                 }
@@ -145,7 +145,7 @@ void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
                 }
                 // Check if opening bracket
                 else if (input[i] == '(') {
-                    pushOperatorToTail(output, '(');
+                    pushBracketToTail(output, OPEN_BRACKET);
                     lastType = OPEN_BRACKET;
                     ++bracketLayer;
                 }

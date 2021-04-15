@@ -40,11 +40,8 @@ int main()
     // --- Convert Infix Notation into Postfix Notation ---
 
     /*
-    // Create Linked List to store Postfix Notation
-    LinkedList* postfixInput = createLinkedList();
-
     // Infix to Postfix
-    infixToPostfix(parsedInput, postfixInput, errorHandler);
+    infixToPostfix(expression, errorHandler);
 
     // Check Error
     if (errorHandler->error) {
@@ -53,7 +50,7 @@ int main()
     }
     else {
         // Debug Print LinkedList
-        linkedListDebugPrint(postfixInput);
+        linkedListDebugPrint(errorHandler);
     }
     */
 

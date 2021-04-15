@@ -10,6 +10,9 @@
 int getPrecedence(char op) {
     switch (op){
         // Implement BEDMAS
+        case ')':
+        case '(':
+            return 0;
         case '+':
         case '-':
             return 1;

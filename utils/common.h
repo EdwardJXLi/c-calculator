@@ -11,8 +11,9 @@
 // Numeric Types
 #define OPERATOR 0
 #define OPERAND 1
-#define OPEN_BRACKET 2
-#define CLOSE_BRACKET 3
+#define BRACKET 2
+#define OPEN_BRACKET 3
+#define CLOSE_BRACKET 4
 
 // Linked List Errors
 #define LLEMPTYNODE -1

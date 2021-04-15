@@ -6,9 +6,11 @@
 #include "common.h"
 #include "linkedlist.h"
 #include "error.h"
+#include "helpers.h"
 #include "convert.h" 
 
 // Convert Infix to Postfix for Input Expression
-void infixToPostfix(LinkedList* expression, LinkedList* output, ErrorHandler* errorHandler) {
-    return output;
+// NOTE: This implementation will use the same linked list for input and output
+void infixToPostfix(LinkedList* expression, ErrorHandler* errorHandler) {
+    return;
 }
