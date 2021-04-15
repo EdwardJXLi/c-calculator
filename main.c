@@ -2,11 +2,13 @@
 #include "utils/error.h"
 #include "utils/linkedlist.h"
 #include "utils/parse.h"
+#include "utils/convert.h"
 
 int main()
 {
+    // --- Test Input ---
     // Create a test input that hopefully tries out all test cases
-    char testInput[] = "   1 + 22 /11 + (123456+9-9+4    * 5) + 5(8)(7-55)10( -123 (4 * 2) )";
+    char testInput[] = "   -1 + 22 /11 + (123456+9-9+4    * 5) + 5(8)(7-55)10( -123 (4 ^ 2 ^2) ) + 5 * -97 - 2";
 
     // Print Out Test Cases
     printf("%s\n", testInput);
@@ -14,8 +16,16 @@ int main()
     // Create Error Handler
     ErrorHandler* errorHandler = createErrorHandler();
 
+    // Create Linked List of Parsed Input
+    LinkedList* expression = createLinkedList();
+
+    // --- Input Parsing ---
+
+    // Clean Input
+    removeSpaces(testInput);
+
     // Parse User Input
-    LinkedList* parsedInput = parseInput(testInput, errorHandler);
+    parseInput(testInput, expression, errorHandler);
 
     // Check Error
     if (errorHandler->error) {
@@ -24,6 +34,32 @@ int main()
     }
     else {
         // Debug Print LinkedList
-        linkedListDebugPrint(parsedInput);
+        linkedListDebugPrint(expression);
     }
+
+    // --- Convert Infix Notation into Postfix Notation ---
+
+    /*
+    // Create Linked List to store Postfix Notation
+    LinkedList* postfixInput = createLinkedList();
+
+    // Infix to Postfix
+    infixToPostfix(parsedInput, postfixInput, errorHandler);
+
+    // Check Error
+    if (errorHandler->error) {
+        // Print Out Error
+        printError(errorHandler);
+    }
+    else {
+        // Debug Print LinkedList
+        linkedListDebugPrint(postfixInput);
+    }
+    */
+
+    // --- Free Allocated Memory ---
+
+    // Free Memory
+    deleteLinkedList(expression);
+    // deleteLinkedList(postfixInput);
 }

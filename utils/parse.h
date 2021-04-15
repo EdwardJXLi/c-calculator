@@ -2,4 +2,4 @@
 void removeSpaces(char* input);
 
 // Convers User String to LinkedList of User Input
-LinkedList* parseInput(char* input, ErrorHandler* errorHandler);
+void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler);

@@ -5,7 +5,12 @@
         "linkedlist.h": "c",
         "common.h": "c",
         "helpers.h": "c",
-        "error.h": "c"
+        "error.h": "c",
+        "convert.h": "c"
     },
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "cSpell.words": [
+        "LLEMPTYNODE",
+        "LLTYPEERROR"
+    ]
 }

@@ -23,22 +23,19 @@ void removeSpaces(char* input){
     input[j] = '\0';
 }
 
-LinkedList* parseInput(char* input, ErrorHandler* errorHandler) {
-    // Clean Input
-    removeSpaces(input);
-
-    // Create New Linked List
-    LinkedList* output = createLinkedList();
-
+void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
     // Init Vars
-    int tempInt = 0;
+    long double tempNum = 0;
+    int isDecimal = false;
+    int isNegative = false;
     int i = 0;
     int bracketLayer = 0;
     int lastType;
 
     // Sanity check -> Check if input was given!
     if (input[0] == '\0') {
-        return setError(errorHandler, "Parser", "No Input Was Given!");
+        setError(errorHandler, "Parser", "No Input Was Given!");
+        return;
     }
 
     // Sanity check -> Checks if first character is a number or operator
@@ -47,89 +44,103 @@ LinkedList* parseInput(char* input, ErrorHandler* errorHandler) {
     }
     // Special Condition for Negative Numbers
     else if (input[0] == '-') {
-        appendOperand(output, 0);
-        appendOperator(output, '-');
         lastType = OPERATOR;
+        isNegative = true;
         i++;
     }
     else {
         char errorMessage[MAX_ERROR_LEN];
         snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Character In Input: %c At Location 0", input[0]);
-        return setError(errorHandler, "Parser", errorMessage);
+        setError(errorHandler, "Parser", errorMessage);
+        return;
     }
 
     // Loop Through All Characters of the Input and Parse Into Linked List
-    while (input[i]) {
+    while (true) {
         // Handle Number
         if (isNum(input[i])) {
             // Handle if last type was a closing bracket
             if (lastType == CLOSE_BRACKET) {
-                appendOperator(output, '*');
+                pushOperatorToTail(output, '*');
             }
 
             // Process Number
-            tempInt = tempInt*10 + input[i] - '0';
+            tempNum = tempNum*10 + input[i] - '0';
             lastType = OPERAND;
         }
         // Handle Anything Else (Not Number!)
         else {
             // Handle if last character was a number or closing bracket
             if (lastType == OPERAND || lastType == CLOSE_BRACKET) {
-                // Only Append Number if last was actually Operand!
+                // Only Push Number if last was actually Operand!
                 if (lastType == OPERAND){
-                    // Append Number!
-                    appendOperand(output, tempInt);
-                    tempInt = 0;
+                    // Push Number!
+                    if (isNegative) {
+                        tempNum = -1 * tempNum;
+                    }
+                    pushOperandToTail(output, tempNum);
+                    tempNum = 0;
+                    isNegative = false;
                 }
 
                 // Check if current character is opening bracket
                 if (input[i] == '(') {
-                    appendOperator(output, '*');
-                    appendOperator(output, '(');
+                    pushOperatorToTail(output, '*');
+                    pushOperatorToTail(output, '(');
                     lastType = OPEN_BRACKET;
                     ++bracketLayer;
                 }
                 // Check if current character is closing bracket
                 else if (input[i] == ')') {
-                    appendOperator(output, ')');
+                    pushOperatorToTail(output, ')');
                     lastType = CLOSE_BRACKET;
                     --bracketLayer;
                 }
                 // Check if current character is operator
                 else if (getPrecedence(input[i])) {
-                    appendOperator(output, input[i]);
+                    pushOperatorToTail(output, input[i]);
                     lastType = OPERATOR;
+                }
+                // Check if End of String
+                else if (input[i] == '\0') {
+                    break;
                 }
                 else {
                     char errorMessage[MAX_ERROR_LEN];
-                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Character In Input: %c At Location %d", input[i], i);
-                    return setError(errorHandler, "Parser", errorMessage);
+                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Operand In Input: %c At Location %d", input[i], i);
+                    setError(errorHandler, "Parser", errorMessage);
+                    return;
                 }
             }
             // Handle if last character was an operator or opening bracket
             else if (lastType == OPERATOR || lastType == OPEN_BRACKET) {
                 // Special Condition if Negative in Brackets
-                if (lastType == OPEN_BRACKET && input[i] == '-') {
-                    appendOperand(output, 0);
-                    appendOperator(output, '-');
+                if (input[i] == '-') {
                     lastType = OPERATOR;
+                    isNegative = true;
                 }
                 // Check if opening bracket
                 else if (input[i] == '(') {
-                    appendOperator(output, '(');
+                    pushOperatorToTail(output, '(');
                     lastType = OPEN_BRACKET;
                     ++bracketLayer;
                 }
+                // Check if End of String
+                else if (input[i] == '\0') {
+                    break;
+                }
                 else {
                     char errorMessage[MAX_ERROR_LEN];
-                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Character In Input: %c At Location %d", input[i], i);
-                    return setError(errorHandler, "Parser", errorMessage);
+                    snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Operator In Input: %c At Location %d", input[i], i);
+                    setError(errorHandler, "Parser", errorMessage);
+                    return;
                 }
             }
             else {
                 char errorMessage[MAX_ERROR_LEN];
                 snprintf(errorMessage, MAX_ERROR_LEN, "Runtime Error: Unknown Last Datatype: %d", lastType);
-                return setError(errorHandler, "Parser", errorMessage);
+                setError(errorHandler, "Parser", errorMessage);
+                return;
             }
         }
         ++i;
@@ -140,14 +151,13 @@ LinkedList* parseInput(char* input, ErrorHandler* errorHandler) {
     if (lastType == OPERATOR || lastType == OPEN_BRACKET){
         char errorMessage[MAX_ERROR_LEN];
         snprintf(errorMessage, MAX_ERROR_LEN, "Unexpected Last Character: %c", input[i-1]);
-        return setError(errorHandler, "Parser", errorMessage);
+        setError(errorHandler, "Parser", errorMessage);
+        return;
     }
 
     // Check if brackets are balanced
     if (bracketLayer != 0) {
-        return setError(errorHandler, "Parser", "Unbalanced Brackets");
+        setError(errorHandler, "Parser", "Unbalanced Brackets");
+        return;
     }
-
-    // Return Parsed LinkedList
-    return output;
 }
