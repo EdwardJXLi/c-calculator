@@ -42,7 +42,7 @@ void infixToPostfix(LinkedList* expression, ErrorHandler* errorHandler) {
                     case LLTYPEERROR: ;
                         // TODO: Handle Error
                         char errorMessage[MAX_ERROR_LEN];
-                        snprintf(errorMessage, MAX_ERROR_LEN, "Unknown Operator Type at location %d", i+1);
+                        snprintf(errorMessage, MAX_ERROR_LEN, "RuntimeError: Unknown Operator Type at location %d", i+1);
                         setError(errorHandler, "InfixToPostfix", errorMessage);
                         free(operatorStack);
                         return;
@@ -82,7 +82,7 @@ void infixToPostfix(LinkedList* expression, ErrorHandler* errorHandler) {
                         break;
                     default: ;
                         char errorMessage[MAX_ERROR_LEN];
-                        snprintf(errorMessage, MAX_ERROR_LEN, "Unknown Bracket Type %d at location %d", bracket, i+1);
+                        snprintf(errorMessage, MAX_ERROR_LEN, "RuntimeError: Unknown Bracket Type %d at location %d", bracket, i+1);
                         setError(errorHandler, "InfixToPostfix", errorMessage);
                         free(operatorStack);
                         return;
@@ -90,7 +90,7 @@ void infixToPostfix(LinkedList* expression, ErrorHandler* errorHandler) {
                 break;
             default: ;
                 char errorMessage[MAX_ERROR_LEN];
-                snprintf(errorMessage, MAX_ERROR_LEN, "Unknown Node Type %d at location %d", peekHeadType(expression), i+1);
+                snprintf(errorMessage, MAX_ERROR_LEN, "RuntimeError: Unknown Node Type %d at location %d", peekHeadType(expression), i+1);
                 setError(errorHandler, "InfixToPostfix", errorMessage);
                 free(operatorStack);
                 return;

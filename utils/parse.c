@@ -23,6 +23,8 @@ void removeSpaces(char* input){
     input[j] = '\0';
 }
 
+// Function to parse Infix Expression into Reverse Polish notation (Postfix)
+// Using Shunting-yard algorithm (https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
 void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
     // Init Vars
     long double tempNum = 0;
@@ -162,7 +164,7 @@ void parseInput(char* input, LinkedList* output, ErrorHandler* errorHandler) {
             }
             else {
                 char errorMessage[MAX_ERROR_LEN];
-                snprintf(errorMessage, MAX_ERROR_LEN, "Runtime Error: Unknown Last Datatype: %d", lastType);
+                snprintf(errorMessage, MAX_ERROR_LEN, "RuntimeError: Unknown Last Datatype: %d", lastType);
                 setError(errorHandler, "Parser", errorMessage);
                 return;
             }

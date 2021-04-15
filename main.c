@@ -3,13 +3,16 @@
 #include "utils/linkedlist.h"
 #include "utils/parse.h"
 #include "utils/convert.h"
+#include "utils/eval.h"
 
 int main()
 {
     // --- Test Input ---
     // Create a test input that hopefully tries out all test cases
-    char testInput[] = "   -1 + 22 /11.4 + (123.456+9-9+4.987    * 5) + 5(8.123)(7-55)-10.4( -123 (4 ^ 2.6 ^-2.0) ) + .5 * -97 - 2.";
-    // char testInput[] = "1+2*(3^4-5)^(6+7*8)-9";
+    // char testInput[] = "2+2*(2^2-2)^(2+2*2)-2";
+    char testInput[] = "   -1 + 22 /11.4 + (123.456+9-9+4.987    * 5) + 5(8.123)(7-55)-10.4( -123 (4 ^ 2.6) ) + .5 * -97 - 2.";
+    // Expected: 45170.5787674
+    // Output: 45170.578767
 
     // Print Out Test Cases
     printf("%s\n", testInput);
@@ -32,6 +35,7 @@ int main()
     if (errorHandler->error) {
         // Print Out Error
         printError(errorHandler);
+        goto cleanup;
     }
     else {
         // Debug Print LinkedList
@@ -48,6 +52,7 @@ int main()
     if (errorHandler->error) {
         // Print Out Error
         printError(errorHandler);
+        goto cleanup;
     }
     else {
         // Debug Print LinkedList
@@ -55,10 +60,28 @@ int main()
         linkedListDebugPrint(expression);
     }
 
+    // Eval Postfix Expression
+
+    // Eval
+    long double result = evalExpression(expression, errorHandler);
+
+    // Check Error
+    if (errorHandler->error) {
+        // Print Out Error
+        printError(errorHandler);
+        goto cleanup;
+    }
+    else {
+        // Print Result
+        printf("Result is: %Lf\n", result);
+    }
+
     // --- Free Allocated Memory ---
 
+    cleanup:
     // Free Memory
     deleteLinkedList(expression);
     destroyErrorHandler(errorHandler);
-    // deleteLinkedList(postfixInput);
+
+    printf("Exiting...\n");
 }
