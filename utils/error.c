@@ -13,8 +13,8 @@ ErrorHandler* createErrorHandler() {
 
     // Init Vars
     handler->error = false;
-    handler->location = "N/A";
-    handler->message = "No Error";
+    handler->location = NULL;
+    handler->message = NULL;
 
     // Return handler
     return handler;
@@ -22,6 +22,13 @@ ErrorHandler* createErrorHandler() {
 
 // Helper function to Set Error
 void* setError(ErrorHandler* handler, char* location, char* message) {
+    // Free Current Error Strings
+    if (handler->location)
+        free(handler->location);
+
+    if (handler->message)
+        free(handler->message);
+
     // Create Error Location and Transfer Error Location
     char* errorLocation = (char*)malloc(sizeof(char)*MAX_ERROR_LOC_LEN);
     strncpy(errorLocation, location, MAX_ERROR_LOC_LEN);
@@ -41,7 +48,7 @@ void* setError(ErrorHandler* handler, char* location, char* message) {
 
 // Helper to Print Error
 void printError(ErrorHandler* handler) {
-    if (!handler->error) {
+    if (!handler->error || !handler->location || !handler->message) {
         printf("RuntimeError: Trying To Print Error For Error Handler %p When No Error Was Set!", handler);
     }
 
@@ -54,8 +61,11 @@ void printError(ErrorHandler* handler) {
 // Destroy Error Handler
 void destroyErrorHandler(ErrorHandler* handler) {
     // Free Error Strings
-    free(handler->location);
-    free(handler->message);
+    if (handler->location)
+        free(handler->location);
+
+    if (handler->message)
+        free(handler->message);
 
     // Free Memory
     free(handler);

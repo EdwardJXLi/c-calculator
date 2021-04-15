@@ -61,5 +61,6 @@ int main()
 
     // Free Memory
     deleteLinkedList(expression);
+    destroyErrorHandler(errorHandler);
     // deleteLinkedList(postfixInput);
 }
