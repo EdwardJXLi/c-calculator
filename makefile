@@ -8,3 +8,4 @@ default: compile
 
 compile: $(FILES)
 	$(CC) $(CFLAGS) $(FILES) -o $(TARGET) $(FLAGS)
+	

@@ -403,7 +403,7 @@ long double popOperandFromHead(LinkedList* ll) {
     LLNode* node = (LLNode*)ll->head;
 
     // Check Node Type
-    if (node->type != OPERATOR) {
+    if (node->type != OPERAND) {
         return LLTYPEERROR;
     } 
 
@@ -512,6 +512,32 @@ void deleteLinkedList(LinkedList* ll){
     free(ll);
 }
 
+// Function to Print Linked List as Expression
+void linkedListPrintExp(LinkedList* ll) {
+    // Iterate Through and Get Nodes
+    LLNode* current = ll->head;
+    while (current) {
+        switch (current->type) {
+            case OPERATOR: ;
+                LLOperator* operatorNode = (LLOperator*)current;
+                printf("%c ", operatorNode->operator);
+                break;
+            case OPERAND: ;
+                LLOperand* operandNode = (LLOperand*)current;
+                printf("%Lf ", operandNode->operand);
+                break;
+            case BRACKET: ;
+                LLBracket* bracketNode = (LLBracket*)current;
+                printf("%c ", (bracketNode->bracket == OPEN_BRACKET) ? '(' : ')');
+                break;
+            default:
+                printf("?");
+        }
+        current = current->next;
+    }
+    printf("\n");
+}
+
 // Debug Function to Print All Values in Linked List
 void linkedListDebugPrint(LinkedList* ll) {
     // Print Out Base LinkedList Info
@@ -540,10 +566,11 @@ void linkedListDebugPrint(LinkedList* ll) {
                 printf("Node at %p - Type: %d - Data: %c (%d)\n", bracketNode, bracketNode->type, (bracketNode->bracket == OPEN_BRACKET) ? '(' : ')', bracketNode->bracket);
                 break;
             default:
-                printf("Unknown Node of Type %d at location %p", current->type, current);
+                printf("Unknown Node of Type %d at location %p\n", current->type, current);
         }
         printf("() [%p] <-> [[%p]] <-> [%p] )\n", current->prev, current, current->next);
         current = current->next;
     }
     printf("=================\n");
 }
+

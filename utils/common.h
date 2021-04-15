@@ -16,8 +16,8 @@
 #define CLOSE_BRACKET 4
 
 // Linked List Errors
-#define LLEMPTYNODE -1
-#define LLTYPEERROR -2
+#define LLEMPTYNODE 1
+#define LLTYPEERROR 2
 
 // Other Constants
 #define MAX_ERROR_LEN 128

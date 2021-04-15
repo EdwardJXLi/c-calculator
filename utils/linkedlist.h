@@ -77,4 +77,5 @@ long double popOperandFromTail(LinkedList* ll);
 int popBracketFromHead(LinkedList* ll);
 int popBracketFromTail(LinkedList* ll);
 void deleteLinkedList(LinkedList* ll);
+void linkedListPrintExp(LinkedList* ll);
 void linkedListDebugPrint(LinkedList* ll);

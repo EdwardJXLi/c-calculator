@@ -9,6 +9,7 @@ int main()
     // --- Test Input ---
     // Create a test input that hopefully tries out all test cases
     char testInput[] = "   -1 + 22 /11.4 + (123.456+9-9+4.987    * 5) + 5(8.123)(7-55)-10.4( -123 (4 ^ 2.6 ^-2.0) ) + .5 * -97 - 2.";
+    // char testInput[] = "1+2*(3^4-5)^(6+7*8)-9";
 
     // Print Out Test Cases
     printf("%s\n", testInput);
@@ -34,12 +35,12 @@ int main()
     }
     else {
         // Debug Print LinkedList
+        linkedListPrintExp(expression);
         linkedListDebugPrint(expression);
     }
 
     // --- Convert Infix Notation into Postfix Notation ---
 
-    /*
     // Infix to Postfix
     infixToPostfix(expression, errorHandler);
 
@@ -50,9 +51,9 @@ int main()
     }
     else {
         // Debug Print LinkedList
-        linkedListDebugPrint(errorHandler);
+        linkedListPrintExp(expression);
+        linkedListDebugPrint(expression);
     }
-    */
 
     // --- Free Allocated Memory ---
 
