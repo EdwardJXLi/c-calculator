@@ -62,7 +62,7 @@ int main()
 
     // Eval Postfix Expression
 
-    // Eval
+    // Evaluate Math Expression
     long double result = evalExpression(expression, errorHandler);
 
     // Check Error
